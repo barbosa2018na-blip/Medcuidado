@@ -8,9 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Listar arquivos
-        run: ls -la
-
       - name: Descompactar projeto
         run: unzip MedCuidadoAndroid.zip
 
@@ -20,11 +17,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Permissao ao Gradle
-        run: chmod +x MedCuidadoApp/gradlew
+      - name: Instalar Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
       - name: Compilar APK
-        run: cd MedCuidadoApp && ./gradlew assembleDebug
+        run: cd MedCuidadoApp && gradle assembleDebug
 
       - name: Salvar APK
         uses: actions/upload-artifact@v4
